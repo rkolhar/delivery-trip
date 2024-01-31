@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  producer:
+    build:
+      context: ./producer
+      dockerfile: Dockerfile
+    volumes: 
+      - ./config.yaml:/app/config.yaml
+      - ./data/delivery_trip_truck_data.csv:/app/delivery_trip_truck_data.csv
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - KAFKA_BOOTSTRAP_SERVERS=pkc-41p56.asia-south1.gcp.confluent.cloud:9092
+      - KAFKA_SASL_MECHANISMS=PLAIN
+      - KAFKA_SECURITY_PROTOCOL=SASL_SSL
+      - KAFKA_SASL_USERNAME=username
+      - KAFKA_SASL_PASSWORD=password
+
+
+  consumer:
+    build:
+      context: ./consumer
+      dockerfile: Dockerfile
+    volumes: 
+      - ./config.yaml:/app/config.yaml
+    environment:
+      - consumer_id=1
+      - KAFKA_BOOTSTRAP_SERVERS=pkc-41p56.asia-south1.gcp.confluent.cloud:9092
+      - KAFKA_SASL_MECHANISMS=PLAIN
+      - KAFKA_SECURITY_PROTOCOL=SASL_SSL
+      - KAFKA_SASL_USERNAME=username
+      - KAFKA_SASL_PASSWORD=password
+      - KAFKA_GROUP_ID=delivery_group
+      - KAFKA_AUTO_OFFSET_RESET=earliest
