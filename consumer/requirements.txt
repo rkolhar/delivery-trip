@@ -1,0 +1,5 @@
+confluent_kafka
+pymongo
+PyYAML>=5.1.2
+fastavro
+requests
