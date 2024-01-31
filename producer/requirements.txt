@@ -1,0 +1,5 @@
+confluent-kafka==2.3.0
+pandas
+PyYAML>=5.1.2
+fastavro
+requests
